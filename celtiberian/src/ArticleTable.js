@@ -1,33 +1,25 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Table } from 'antd';
 
-function ArticleTable() {
-  const articles = useSelector((state) => state.articles);
+const ArticleTable = () => {
+  const articles = useSelector((state) => state.articles.items);
 
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Snippet</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {articles.map((article) => (
-          <tr key={article.id}>
-            <td>{article.title}</td>
-            <td>{article.snippet}</td>
-            <td>
-              <a href={article.url} target="_blank" rel="noopener noreferrer">
-                Read More
-              </a>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
+  const columns = [
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+      render: (text, record) => <a href={record.url}>{text}</a>,
+    },
+    {
+      title: 'Snippet',
+      dataIndex: 'snippet',
+      key: 'snippet',
+    },
+  ];
+
+  return <Table columns={columns} dataSource={articles} />;
+};
 
 export default ArticleTable;

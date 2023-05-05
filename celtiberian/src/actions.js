@@ -12,20 +12,20 @@ export const fetchArticlesRequest = () => ({
     payload: error,
   });
   
-  export const fetchArticles = (searchTerm) => {
+  export const fetchArticles = (searchTerm, page = 1) => {
     return (dispatch) => {
       dispatch(fetchArticlesRequest());
-      fetch(
-        `https://chroniclingamerica.loc.gov/search/titles/results/?terms=${searchTerm}&format=json`
-      )
+      return fetch(`https://chroniclingamerica.loc.gov/search/titles/results/?terms=${searchTerm}&format=json&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
-          const articles = data.items;
-          dispatch(fetchArticlesSuccess(articles));
+          dispatch(fetchArticlesSuccess(data));
         })
         .catch((error) => {
           dispatch(fetchArticlesFailure(error.message));
         });
     };
   };
+  
+
+  
   
