@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchArticles } from './actions';
 import ArticleTable from './ArticleTable';
@@ -15,6 +15,10 @@ function App() {
     event.preventDefault();
     dispatch(fetchArticles(searchTerm));
   };
+
+  useEffect(() => {
+    dispatch(fetchArticles(''));
+  }, [dispatch])
 
   return (
     <div>
