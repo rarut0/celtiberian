@@ -12,11 +12,11 @@ export const fetchArticlesRequest = () => ({
     payload: error,
   });
   
-  export const fetchArticles = () => {
+  export const fetchArticles = (searchTerm) => {
     return (dispatch) => {
       dispatch(fetchArticlesRequest());
       fetch(
-        'https://chroniclingamerica.loc.gov/search/titles/results/?terms=newspaper&format=json'
+        `https://chroniclingamerica.loc.gov/search/titles/results/?terms=${searchTerm}&format=json`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -28,3 +28,4 @@ export const fetchArticlesRequest = () => ({
         });
     };
   };
+  
