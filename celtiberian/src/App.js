@@ -1,34 +1,28 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { fetchArticles } from './actions';
+import ArticleTable from './ArticleTable';
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
-  const articles = useSelector((state) => state.articles);
-  const loading = useSelector((state) => state.loading);
-  const error = useSelector((state) => state.error);
 
-  useEffect(() => {
-    dispatch(fetchArticles());
-  }, [dispatch]);
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(fetchArticles(searchTerm));
+  };
 
   return (
     <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <ul>
-          {articles.map((article) => (
-            <li key={article.id}>
-              <h2>{article.title}</h2>
-              <p>{article.snippet}</p>
-              <a href={article.url}>Read More</a>
-            </li>
-          ))}
-        </ul>
-      )}
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={searchTerm} onChange={handleInputChange} />
+        <button type="submit">Search</button>
+      </form>
+      <ArticleTable />
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 
 const initialState = {
@@ -7,7 +8,7 @@ const initialState = {
   error: null,
 };
 
-const reducer = (state = initialState, action) => {
+const reducerPaper = (state = initialState, action) => {
   switch (action.type) {
     case 'FETCH_ARTICLES_REQUEST':
       return { ...state, loading: true };
@@ -20,6 +21,6 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = configureStore({reducer:reducerPaper} , applyMiddleware(thunk));
 
 export default store;
